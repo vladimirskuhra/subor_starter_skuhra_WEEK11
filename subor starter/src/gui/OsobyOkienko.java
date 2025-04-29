@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 
 public class OsobyOkienko {
     private final DefaultListModel<Osoba> model;
@@ -28,6 +29,7 @@ public class OsobyOkienko {
         this.okno.setContentPane(this.panel1);
         this.okno.pack();
         this.okno.setVisible(true);
+        this.okno.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         this.model = new DefaultListModel<Osoba>();
         this.osobyList.setModel(this.model);
@@ -72,6 +74,30 @@ public class OsobyOkienko {
         });
 
 
+        UlozitBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    OsobyOkienko .this.db.uloz();
+                    JOptionPane.showMessageDialog(OsobyOkienko.this.okno, "Ulozenie sa podarilo");
+                } catch (Exception z) {
+                    JOptionPane.showMessageDialog(OsobyOkienko.this.okno, "Ulozenie sa nepodarilo");
+                }
+            }
+        });
+        NacitatBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    OsobyOkienko.this.db.nacitaj();
+                    OsobyOkienko.this.model.clear();
+                    OsobyOkienko.this.nacitajDataZDb();
+                } catch ( IOException ex) {
+                    JOptionPane.showMessageDialog(OsobyOkienko.this.okno,"Nepodarilo sa nacitat subor");
+                }
+
+            }
+        });
     }
 
     public void nacitajDataZDb() {

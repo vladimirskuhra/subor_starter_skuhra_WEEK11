@@ -6,6 +6,7 @@ public class Osoba implements Serializable {
     private String meno;
     private String priezvisko;
     private int vek;
+    private int vaha;
 
     public Osoba() {
     }
